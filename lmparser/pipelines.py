@@ -34,28 +34,8 @@ class LmparserPipeline(object):
 			try:
 				file = img.split('/')[-1]
 				wget.download(img,(folder+'/'+file))
-				#print (file)
 				llink.append(folder+'/'+file)
 			except Exception as e:
 				print(e)
 		return llink
 
-
-class LmPhotosPipeline(ImagesPipeline): # этот класс в setting закомментировал, так как не работает scrapy.Request(img)
-	def get_media_requests(self, item, info):
-		if item['photos']:
-			for img in item['photos']:
-				print(img)
-				try:
-					#wget.download(img) 
-					yield scrapy.Request(img)
-				except Exception as e:
-					print(e)
-	def file_path(self, request, response=None, info=None):
-		pass
-
-	def item_completed(self, results, item, info):
-		if results[0]:
-			item['photos'] = [itm[1] for itm in results if itm[0]]
-			print(item['photos'])
-		return item
