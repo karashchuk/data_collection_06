@@ -12,7 +12,8 @@ from lxml import html
 def to_int(value):
 	int_price = int(value.replace(' ',''))
 	return int_price
-def dict_param(value):
+
+def dict_param(value): #характеристики сохраним в виде словаря
 	pdict={}
 	for i in value:
 		div = html.fromstring(i)
@@ -20,11 +21,11 @@ def dict_param(value):
 		val = div.xpath("./dd[@class='def-list__definition']/text()")[0].replace('\n                ','').replace('\n            ','')
 		pdict[param] = val
 	return pdict
+
 class LmparserItem(scrapy.Item):
 	# define the fields for your item here like:
 	_id = scrapy.Field()
 	name = scrapy.Field(output_processor=TakeFirst())
-	#name = scrapy.Field()
 	photos = scrapy.Field()
 	link = scrapy.Field(output_processor=TakeFirst())
 	local_link = scrapy.Field()

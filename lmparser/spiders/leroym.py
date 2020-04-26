@@ -14,14 +14,10 @@ class LeroymSpider(scrapy.Spider):
 
 	def parse(self, response):
 		goods_links = response.xpath("//div[@class='product-name']/a[@href]/@href").extract()
-		for link in goods_links[0:2]:
+		for link in goods_links[0:5]:  # поставил ограничение только на 5 товаров
 			yield response.follow(link, callback=self.parse_goods)
 
 	def parse_goods(self,response):
-		#name = response.xpath("//h1[@class='header-2']/text()").extract_first()
-		#photos = response.xpath("//picture[@slot='pictures']/img[@itemprop='image']/@src").extract()
-		#url_link = (response.url)
-		#yield LmparserItem(name = name, photos = photos, link = url_link)		
 		loader = ItemLoader(item=LmparserItem(), response=response)
 		loader.add_xpath('name',"//h1[@class='header-2']/text()")
 		loader.add_xpath('photos',"//picture[@slot='pictures']/img[@itemprop='image']/@src")
